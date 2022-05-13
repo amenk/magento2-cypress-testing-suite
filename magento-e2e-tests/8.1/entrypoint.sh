@@ -52,7 +52,7 @@ composer create-project --repository=$REPOSITORY_URL --no-install --no-progress 
 #mkdir -p local-source/
 #cd local-source/
 #cp -R ${GITHUB_WORKSPACE}/${MODULE_SOURCE} $GITHUB_ACTION
-#cd $MAGENTO_ROOT
+cd $MAGENTO_ROOT
 
 echo "Post Project Script [post_project_script]: $INPUT_POST_PROJECT_SCRIPT"
 if [[ ! -z "$INPUT_POST_PROJECT_SCRIPT" && -f "${GITHUB_WORKSPACE}/$INPUT_POST_PROJECT_SCRIPT" ]] ; then
@@ -60,10 +60,10 @@ if [[ ! -z "$INPUT_POST_PROJECT_SCRIPT" && -f "${GITHUB_WORKSPACE}/$INPUT_POST_P
     . ${GITHUB_WORKSPACE}/$INPUT_POST_PROJECT_SCRIPT
 fi
 
-#echo "Configure extension source in composer"
-#composer config --unset repo.0
-#composer config repositories.local-source path local-source/\*
-#composer config repositories.magento composer $REPOSITORY_URL
+echo "Configure extension source in composer"
+composer config --unset repo.0
+composer config repositories.local-source path local-source/\*
+composer config repositories.magento composer $REPOSITORY_URL
 
 echo "Pre Install Script [magento_pre_install_script]: $INPUT_MAGENTO_PRE_INSTALL_SCRIPT"
 if [[ ! -z "$INPUT_MAGENTO_PRE_INSTALL_SCRIPT" && -f "${GITHUB_WORKSPACE}/$INPUT_MAGENTO_PRE_INSTALL_SCRIPT" ]] ; then
@@ -71,8 +71,8 @@ if [[ ! -z "$INPUT_MAGENTO_PRE_INSTALL_SCRIPT" && -f "${GITHUB_WORKSPACE}/$INPUT
     . ${GITHUB_WORKSPACE}/$INPUT_MAGENTO_PRE_INSTALL_SCRIPT
 fi
 
-#echo "Run installation"
-#COMPOSER_MEMORY_LIMIT=-1 composer install --no-interaction --no-progress
+echo "Run installation"
+COMPOSER_MEMORY_LIMIT=-1 composer install --no-interaction --no-progress
 
 if [[ "$MAGENTO_VERSION" == "2.4.0" ]]; then
   #Dotdigital tests don't work out of the box
