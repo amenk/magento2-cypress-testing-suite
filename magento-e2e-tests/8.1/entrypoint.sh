@@ -60,10 +60,10 @@ if [[ ! -z "$INPUT_POST_PROJECT_SCRIPT" && -f "${GITHUB_WORKSPACE}/$INPUT_POST_P
     . ${GITHUB_WORKSPACE}/$INPUT_POST_PROJECT_SCRIPT
 fi
 
-echo "Configure extension source in composer"
-composer config --unset repo.0
-composer config repositories.local-source path local-source/\*
-composer config repositories.magento composer $REPOSITORY_URL
+#echo "Configure extension source in composer"
+#composer config --unset repo.0
+#composer config repositories.local-source path local-source/\*
+#composer config repositories.magento composer $REPOSITORY_URL
 
 echo "Pre Install Script [magento_pre_install_script]: $INPUT_MAGENTO_PRE_INSTALL_SCRIPT"
 if [[ ! -z "$INPUT_MAGENTO_PRE_INSTALL_SCRIPT" && -f "${GITHUB_WORKSPACE}/$INPUT_MAGENTO_PRE_INSTALL_SCRIPT" ]] ; then
