@@ -27,3 +27,6 @@ jobs:
         env:
           MAGENTO_VERSION: '2.4.4'
           COMPOSER_VERSION: '2'
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
