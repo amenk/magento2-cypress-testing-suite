@@ -17,7 +17,7 @@ jobs:
         options: --tmpfs /tmp:rw --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping"
     steps:
       - uses: actions/checkout@v2
-      - uses: ./magento2-cypress-testing-suite/magento-e2e-tests/8.1
+      - uses: ./magento-e2e-tests/8.1
         env:
           MAGENTO_VERSION: '2.4.4'
           COMPOSER_VERSION: '2'
