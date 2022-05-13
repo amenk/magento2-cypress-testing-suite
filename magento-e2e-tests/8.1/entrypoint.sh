@@ -114,4 +114,7 @@ fi
 php -r "echo ini_get('memory_limit').PHP_EOL;"
 
 echo "Run the integration tests"
-curl http://magento2.test/
+
+apache2-foreground &
+
+curl http://localhost/
