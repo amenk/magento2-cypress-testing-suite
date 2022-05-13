@@ -103,16 +103,6 @@ if [[ ! -z "$INPUT_MAGENTO_POST_INSTALL_SCRIPT" && -f "${GITHUB_WORKSPACE}/$INPU
     . ${GITHUB_WORKSPACE}/$INPUT_MAGENTO_POST_INSTALL_SCRIPT
 fi
 
-echo "Trying phpunit.xml file $PHPUNIT_FILE"
-if [[ ! -z "$PHPUNIT_FILE" ]] ; then
-    PHPUNIT_FILE=${GITHUB_WORKSPACE}/${PHPUNIT_FILE}
-fi
-
-if [[ ! -f "$PHPUNIT_FILE" ]] ; then
-    PHPUNIT_FILE=/docker-files/phpunit.xml
-fi
-echo "Using PHPUnit file: $PHPUNIT_FILE"
-
 echo "Prepare for integration tests"
 cd $MAGENTO_ROOT
 cp /docker-files/install-config-mysql.php dev/tests/integration/etc/install-config-mysql.php
@@ -124,4 +114,4 @@ fi
 php -r "echo ini_get('memory_limit').PHP_EOL;"
 
 echo "Run the integration tests"
-sleep 1d
+curl http://magento2.test/
