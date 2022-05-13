@@ -4,8 +4,6 @@ set -e
 
 test -z "${CE_VERSION}" || MAGENTO_VERSION=$CE_VERSION
 
-test -z "${MODULE_NAME}" && MODULE_NAME=$INPUT_MODULE_NAME
-test -z "${COMPOSER_NAME}" && COMPOSER_NAME=$INPUT_COMPOSER_NAME
 test -z "${MAGENTO_VERSION}" && MAGENTO_VERSION=$INPUT_MAGENTO_VERSION
 test -z "${PROJECT_NAME}" && PROJECT_NAME=$INPUT_PROJECT_NAME
 test -z "${ELASTICSEARCH}" && ELASTICSEARCH=$INPUT_ELASTICSEARCH
@@ -49,12 +47,12 @@ test -z "${MAGENTO_MARKETPLACE_USERNAME}" || composer global config http-basic.r
 echo "Prepare composer installation for $MAGENTO_VERSION"
 composer create-project --repository=$REPOSITORY_URL --no-install --no-progress --no-plugins $PROJECT_NAME $MAGENTO_ROOT "$MAGENTO_VERSION"
 
-echo "Setup extension source folder within Magento root"
-cd $MAGENTO_ROOT
-mkdir -p local-source/
-cd local-source/
-cp -R ${GITHUB_WORKSPACE}/${MODULE_SOURCE} $GITHUB_ACTION
-cd $MAGENTO_ROOT
+#echo "Setup extension source folder within Magento root"
+#cd $MAGENTO_ROOT
+#mkdir -p local-source/
+#cd local-source/
+#cp -R ${GITHUB_WORKSPACE}/${MODULE_SOURCE} $GITHUB_ACTION
+#cd $MAGENTO_ROOT
 
 echo "Post Project Script [post_project_script]: $INPUT_POST_PROJECT_SCRIPT"
 if [[ ! -z "$INPUT_POST_PROJECT_SCRIPT" && -f "${GITHUB_WORKSPACE}/$INPUT_POST_PROJECT_SCRIPT" ]] ; then
@@ -66,7 +64,6 @@ echo "Configure extension source in composer"
 composer config --unset repo.0
 composer config repositories.local-source path local-source/\*
 composer config repositories.magento composer $REPOSITORY_URL
-composer require $COMPOSER_NAME:@dev --no-update --no-interaction
 
 echo "Pre Install Script [magento_pre_install_script]: $INPUT_MAGENTO_PRE_INSTALL_SCRIPT"
 if [[ ! -z "$INPUT_MAGENTO_PRE_INSTALL_SCRIPT" && -f "${GITHUB_WORKSPACE}/$INPUT_MAGENTO_PRE_INSTALL_SCRIPT" ]] ; then
