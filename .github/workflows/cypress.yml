@@ -2,7 +2,7 @@ name: ExtDN M2 Performance Testing
 on:
   push:
     branches:
-      - master
+      - 51-github-action
   pull_request:
 
 jobs:
