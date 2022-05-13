@@ -1,36 +1,23 @@
-name: ExtDN M2 Performance Testing
-on:
-  push:
-    branches:
-      - 51-github-action
-  pull_request:
+
+
+name: ExtDN Integration Tests
+on: [push]
 
 jobs:
-  performance:
-    name: M2 Performance Testing
+  integration-tests:
+    name: Magento 2 Integration Tests
     runs-on: ubuntu-latest
-    env:
-      DOCKER_COMPOSE_FILE: "./docker-compose.yml"
-
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --tmpfs /tmp:rw --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping"
     steps:
       - uses: actions/checkout@v2
-        name: Checkout files
-        with:
-          path: extension
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: "echo \"::set-output name=dir::$(composer config cache-dir)\""
-        working-directory: ./extension
-
-      - name: Cache dependencies
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install Magento
-        uses: extdn/github-actions-m2/install-m2-from-mirror@master
-        with:
-          ce-version: '2.4.4'
+      - uses: extdn/github-actions-m2/magento-integration-tests/8.1@master
+        env:
+          MAGENTO_VERSION: '2.4.4'
+          COMPOSER_VERSION: '2'
