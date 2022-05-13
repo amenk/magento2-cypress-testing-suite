@@ -32,3 +32,5 @@ jobs:
 
       - name: Install Magento
         uses: extdn/github-actions-m2/install-m2-from-mirror@master
+        with:
+          ce-version: '2.4.4'
