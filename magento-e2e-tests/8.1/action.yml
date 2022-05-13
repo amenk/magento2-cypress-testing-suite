@@ -34,7 +34,7 @@ inputs:
     default: '1'
 runs:
   using: 'docker'
-  image: 'docker://extdn/magento-integration-tests-action:8.1-latest'
+  image: 'Dockerfile:8.1'
   env:
     MAGENTO_VERSION: ${{ inputs.ce_version }}
     PROJECT_NAME: ${{ inputs.project_name }}
